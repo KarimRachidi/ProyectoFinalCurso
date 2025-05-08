@@ -17,6 +17,7 @@ public class Visitante {
         this.edad = edad;
         this.email = email;
     }
+
     //Generación de getters
     public int getId() {
         return id;
@@ -33,6 +34,7 @@ public class Visitante {
     public String getEmail() {
         return email;
     }
+
     //Generamos el toString, el equals y el hashCode
     @Override
     public String toString() {

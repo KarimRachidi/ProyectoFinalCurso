@@ -1,4 +1,5 @@
 package src.Clases;
+
 /*
 Creación de la clase valoración donde se incluye un id único autoincremental, una nota
 que va el 1 al 5, un comentario sobre la exposición
@@ -24,8 +25,8 @@ public class Valoracion {
         return "Valoracion = " +
                 "id : " + id +
                 ", nota : " + nota +
-                ", comentario : " + comentario  +
+                ", comentario : " + comentario +
                 ", idVisitante : " + idVisitante +
-                ", idExposicion : " + idExposicion ;
+                ", idExposicion : " + idExposicion;
     }
 }
