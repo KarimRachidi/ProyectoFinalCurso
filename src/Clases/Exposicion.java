@@ -14,6 +14,14 @@ public class Exposicion {
     private String descripcion;
     private LocalDate fechaCreacion;
 
+    public Exposicion(int id, String titulo, String tipo, String descripcion, LocalDate fechaCreacion) {
+        this.id = id;
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.fechaCreacion = fechaCreacion;
+    }
+
     //Generación de getters y setters
     public int getId() {
         return id;

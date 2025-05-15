@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-Creamos la clase VisitanteDAO
+Creamos la clase VisitanteDAO donde se modifica al visitante
  */
 public class VisitanteDAO implements DAO<Visitante> {
     private final ConexionBBDD conexion;
@@ -56,7 +56,6 @@ public class VisitanteDAO implements DAO<Visitante> {
     public Visitante readById(int id) {
         String sql = "SELECT * FROM VISITANTE WHERE id=?";
         try (PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)) {
-            stmt.setInt(1, id);
             stmt.setInt(1, id); // Reemplaza el primer '?' con el valor de id
             ResultSet rs = stmt.executeQuery();
 

@@ -20,6 +20,46 @@ public class Valoracion {
         this.idExposicion = idExposicion;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public void setNota(int nota) {
+        this.nota = nota;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public int getIdVisitante() {
+        return idVisitante;
+    }
+
+    public void setIdVisitante(int idVisitante) {
+        this.idVisitante = idVisitante;
+    }
+
+    public int getIdExposicion() {
+        return idExposicion;
+    }
+
+    public void setIdExposicion(int idExposicion) {
+        this.idExposicion = idExposicion;
+    }
+
     @Override
     public String toString() {
         return "Valoracion = " +

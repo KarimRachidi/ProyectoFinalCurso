@@ -18,21 +18,39 @@ public class Visitante {
         this.email = email;
     }
 
-    //Generación de getters
+    //Generación de getters y setters
+
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public int getEdad() {
         return edad;
     }
 
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     //Generamos el toString, el equals y el hashCode
