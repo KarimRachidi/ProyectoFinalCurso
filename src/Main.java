@@ -7,6 +7,8 @@ import src.Clases.Valoracion;
 import src.ClasesDAO.ExposicionDAO;
 import src.ClasesDAO.VisitanteDAO;
 import src.ClasesDAO.ValoracionDAO;
+import src.archivos.LogVisita;
+import src.archivos.ExposicionArchivo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,6 +39,10 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
             System.out.println("1. Gestión de visitantes");
             System.out.println("2. Gestión de exposiciones");
             System.out.println("3. Gestión de valoraciones");
+            System.out.println("4. Exportar / Importar exposiciones (.dat)");
+            System.out.println("5. Incluir log de visita(.txt)");
+            System.out.println("6. Sacar los logs");
+            System.out.println("7. Ver contenido de exposiciones.dat");
             System.out.println("0. Salir");
             System.out.print("Elige opción: ");
             opcion = sc.nextInt();
@@ -52,6 +58,18 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
                 case 3:
                     menuValoraciones(sc, valoracionDAO, visitanteDAO, exposicionDAO);
                     break;
+                case 4:
+                    menuFicherosExposiciones(sc, exposicionDAO);
+                    break;
+                case 5:
+                    meterLogVisita(sc,visitanteDAO,exposicionDAO);
+                    break;
+                case 6:
+                    LogVisita.mostrarLogs();
+                    break;
+                case 7:
+                    verificarExposicionesGuardadas();
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -64,9 +82,33 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         // Cerrar conexión al final
         conexion.cerrarConexion();
     }
-
     /*
-    SUBMENÚ: Gestión de visitantes
+    Método auxiliar para probar que el log de visitas funciona correctamente.
+    Se pide al usuario que introduzca los IDs de un visitante y una exposición,
+    y se registra manualmente un acceso en el fichero logs_visitas.txt.
+     */
+    private static void meterLogVisita(Scanner sc, VisitanteDAO visitanteDAO, ExposicionDAO exposicionDAO) {
+        System.out.print("ID del visitante: ");
+        int idV = sc.nextInt();
+        System.out.print("ID de la exposición: ");
+        int idE = sc.nextInt();
+        sc.nextLine(); //Limpiamos el buffer
+
+        //Buscamos si existen los elementos en la base de datos
+        Visitante v = visitanteDAO.readById(idV);
+        Exposicion e = exposicionDAO.readById(idE);
+
+        //Si no existe alguno, mostramos mensaje y salimos.
+        if (v == null || e == null) {
+            System.out.println("Uno de los elementos no existe.");
+            return;
+        }
+        //Si todo es válido, llamamos al método que registra el acceso
+        LogVisita.registrarAcceso(v, e);
+        System.out.println(" Acceso registrado en el log.");
+    }
+    /*
+   =============== SUBMENÚ: Gestión de visitantes ===============
     Donde gracias a CRUD, se añade un visitante (Create), ver todos los visitantes (Read),
     actualizar un visitante (Update), y eliminar un visitante (Delete).
      */
@@ -87,7 +129,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
 
             switch (op) {
                 case 1:
-                    añadirVisitante(sc, visitanteDAO);
+                    anyadirVisitante(sc, visitanteDAO);
                     break;
                 case 2:
                     verTodosVisitantes(visitanteDAO);
@@ -111,7 +153,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
     }
 
     /*
-   SUBMENÚ: Gestión de exposiciones
+   =============== SUBMENÚ: Gestión de exposiciones ===============
    Donde gracias a CRUD, se añade una exposición (Create), ver todas las exposiciones (Read),
    actualizar una exposición (Update), y eliminar una exposición (Delete).
     */
@@ -132,7 +174,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
 
             switch (op) {
                 case 1:
-                    añadirExposicion(sc, exposicionDAO);
+                    anyadirExposicion(sc, exposicionDAO);
                     break;
                 case 2:
                     verTodasExposiciones(exposicionDAO);
@@ -156,7 +198,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
     }
 
     /*
-   SUBMENÚ: Gestión de valoraciones
+   ===============SUBMENÚ: Gestión de valoraciones ===============
    Donde gracias a CRUD, se añade una valoración (Create), ver todas las valoraciones (Read),
    actualizar una valoración (Update), y eliminar una valoración (Delete).
     */
@@ -177,7 +219,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
 
             switch (op) {
                 case 1:
-                    añadirValoracion(sc, valoracionDAO, visitanteDAO, exposicionDAO);
+                    anyadirValoracion(sc, valoracionDAO, visitanteDAO, exposicionDAO);
                     break;
                 case 2:
                     verTodasLasValoraciones(valoracionDAO);
@@ -201,9 +243,12 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         } while (op != 0);
     }
 
-    // Métodos auxiliares para gestión de visitantes
+    /*
+    =============== MÉTODOS DE LOS VISITANTES ===============
+    Métodos que se utilizan para manejar los distintos visitantes
+     */
 
-    private static void añadirVisitante(Scanner sc, VisitanteDAO dao) {
+    private static void anyadirVisitante(Scanner sc, VisitanteDAO dao) {
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
         System.out.print("Edad: ");
@@ -273,10 +318,12 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         dao.delete(id);
         System.out.println("Visitante eliminado.");
     }
+  /*
+    =============== MÉTODOS DE LAS EXPOSICIONES ===============
+    Métodos que se utilizan para manejar las distintas exposiciones
+     */
 
-    // Métodos auxiliares para gestión de exposiciones
-
-    private static void añadirExposicion(Scanner sc, ExposicionDAO dao) {
+    private static void anyadirExposicion(Scanner sc, ExposicionDAO dao) {
         System.out.print("Título: ");
         String titulo = sc.nextLine();
         System.out.print("Tipo (arte, ciencia...): ");
@@ -346,30 +393,53 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         System.out.println("Exposición eliminada.");
     }
 
-    // Métodos auxiliares para valoraciones
+      /*
+    =============== MÉTODOS DE LAS VALORACIONES ===============
+    Métodos que se utilizan para manejar las distintas valoraciones
+     */
 
-    private static void añadirValoracion(Scanner sc, ValoracionDAO valoracionDAO, VisitanteDAO visitanteDAO, ExposicionDAO exposicionDAO) {
-        // Mostrar listado de visitantes y exposiciones disponibles
+    private static void anyadirValoracion(Scanner sc, ValoracionDAO valoracionDAO, VisitanteDAO visitanteDAO, ExposicionDAO exposicionDAO) {
+        // Mostrar listado de visitantes
         System.out.println("Lista de visitantes:");
-        visitanteDAO.readAll().forEach(v -> System.out.println("ID: " + v.getId() + " - " + v.getNombre()));
+        List<Visitante> listaVisitantes = visitanteDAO.readAll();
+        for (int i = 0; i < listaVisitantes.size(); i++) {
+            Visitante v = listaVisitantes.get(i);
+            System.out.println("ID: " + v.getId() + " - Nombre: " + v.getNombre());
+        }
 
+        // Mostrar listado de exposiciones
         System.out.println("Lista de exposiciones:");
-        exposicionDAO.readAll().forEach(e -> System.out.println("ID: " + e.getId() + " - " + e.getTitulo()));
+        List<Exposicion> listaExposiciones = exposicionDAO.readAll();
+        for (int i = 0; i < listaExposiciones.size(); i++) {
+            Exposicion e = listaExposiciones.get(i);
+            System.out.println("ID: " + e.getId() + " - Título: " + e.getTitulo());
+        }
 
-        // Solicitar IDs
+        // Solicitar datos al usuario
         System.out.print("ID del visitante: ");
         int idVisitante = sc.nextInt();
         System.out.print("ID de la exposición: ");
         int idExposicion = sc.nextInt();
         System.out.print("Nota (1-5): ");
         int nota = sc.nextInt();
-        sc.nextLine();
+        sc.nextLine(); // Limpiar buffer
         System.out.print("Comentario: ");
         String comentario = sc.nextLine();
 
+        // Crear objeto Valoración
         Valoracion val = new Valoracion(0, nota, comentario, idVisitante, idExposicion);
         valoracionDAO.create(val);
 
+        // Registrar acceso en LogVisita
+        Visitante v = visitanteDAO.readById(idVisitante);
+        Exposicion e = exposicionDAO.readById(idExposicion);
+
+        if (v != null && e != null) {
+            LogVisita.registrarAcceso(v, e);
+            System.out.println("Registro de visita guardado.");
+        } else {
+            System.out.println("Uno de los elementos no existe. No se registró el log.");
+        }
     }
 
     private static void verTodasLasValoraciones(ValoracionDAO valoracionDAO) {
@@ -423,5 +493,74 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         sc.nextLine();
         valoracionDAO.delete(id);
         System.out.println("Valoración eliminada.");
+    }
+    /*
+     /*
+   =============== SUBMENÚ: Gestión de ficheros ===============
+     */
+    private static void menuFicherosExposiciones(Scanner sc, ExposicionDAO exposicionDAO) {
+        int op;
+        do {
+            System.out.println("\n--- FICHEROS DE EXPOSICIONES ---");
+            System.out.println("1. Exportar todas las exposiciones a .dat");
+            System.out.println("2. Importar exposiciones desde .dat");
+            System.out.println("0. Volver al menú principal");
+            System.out.print("Elige opción: ");
+            op = sc.nextInt();
+            sc.nextLine(); // Limpiar buffer
+
+            switch (op) {
+                case 1:
+                    // EXPORTAR TODAS LAS EXPOSICIONES ACTUALES A UN FICHERO BINARIO
+                    List<Exposicion> expLista = exposicionDAO.readAll();
+                    if (expLista.isEmpty()) {
+                        System.out.println("No hay exposiciones para exportar.");
+                        break;
+                    }
+                    ExposicionArchivo.guardar(expLista); // Guarda como objeto serializado
+                    System.out.println("Exposiciones guardadas en .dat");
+                    break;
+
+                case 2:
+                    // IMPORTAR DESDE FICHERO BINARIO
+                    List<Exposicion> expCargadas = ExposicionArchivo.cargar();
+                    if (expCargadas.isEmpty()) {
+                        System.out.println("No hay exposiciones guardadas aún.");
+                        break;
+                    }
+                    System.out.println("Exposiciones importadas:");
+                    for (Exposicion e : expCargadas) {
+                        System.out.println("- " + e.getTitulo());
+                    }
+                    break;
+
+                case 0:
+                    System.out.println("Regresando al menú principal...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+            }
+
+        } while (op != 0);
+
+    }
+
+    private static void verificarExposicionesGuardadas() {
+        List<Exposicion> lista = ExposicionArchivo.cargar();
+
+        if (lista.isEmpty()) {
+            System.out.println("El archivo está vacío o no existe");
+            return;
+        }
+
+        System.out.println("\n--- CONTENIDO DE exposiciones.dat ---");
+        for (Exposicion e : lista) {
+            System.out.println("Título: " + e.getTitulo());
+            System.out.println("Tipo: " + e.getTipo());
+            System.out.println("Descripción: " + e.getDescripcion());
+            System.out.println("Fecha creación: " + e.getFechaCreacion());
+            System.out.println("----------------------------------");
+        }
     }
 }

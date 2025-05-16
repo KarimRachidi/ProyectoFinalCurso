@@ -1,5 +1,6 @@
 package src.Clases;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -7,7 +8,7 @@ import java.util.Objects;
 Creación de la clase Exposición la cual contará con su id, titulo, tipo, descripcion y la fecha de Creación
 de la exposición.
  */
-public class Exposicion {
+public class Exposicion implements Serializable {
     private int id;
     private String titulo;
     private String tipo;
