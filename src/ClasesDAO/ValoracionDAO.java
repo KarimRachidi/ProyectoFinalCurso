@@ -1,7 +1,9 @@
 package src.ClasesDAO;
 
 import src.BBDD.ConexionBBDD;
+import src.Clases.Exposicion;
 import src.Clases.Valoracion;
+import src.Clases.Visitante;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,13 +12,34 @@ import java.util.List;
 public class ValoracionDAO implements DAO<Valoracion> {
 
     private final ConexionBBDD conexion;
+    private final VisitanteDAO visitanteDAO;
+    private final ExposicionDAO exposicionDAO;
 
     public ValoracionDAO(ConexionBBDD conexion) {
         this.conexion = conexion;
+        this.visitanteDAO = new VisitanteDAO(conexion);
+        this.exposicionDAO = new ExposicionDAO(conexion);
+
     }
 
     @Override
     public void create(Valoracion valoracion) {
+        //Comprobación de que existen el visitante y la exposición
+        Visitante visitante = visitanteDAO.readById(valoracion.getIdVisitante());
+        if (visitante == null) {
+            System.out.println(" No existe un visitante con ID: " + valoracion.getIdVisitante());
+            return; //  Salimos si no existe
+        }
+
+        // Comprobamos que la exposición exista
+        Exposicion exposicion = exposicionDAO.readById(valoracion.getIdExposicion());
+        if (exposicion == null) {
+            System.out.println("No existe una exposición con ID: " + valoracion.getIdExposicion());
+            return; //  Salimos si no existe
+        }
+
+        //Tras esa comprobación, si se inserta la valoración
+
         String sql = "INSERT INTO valoracion(nota, comentario, id_visitante, id_exposicion) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)) {
             stmt.setInt(1, valoracion.getNota());
