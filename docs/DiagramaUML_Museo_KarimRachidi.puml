@@ -1,0 +1,167 @@
+@startuml
+class src.archivos.ExposicionArchivo {
+- {static} String FILE_PATH
++ {static} void guardar(List<Exposicion>)
++ {static} List<Exposicion> cargar()
+}
+
+
+interface src.ClasesDAO.DAO {
+~ void create(T)
+~ List<T> readAll()
+~ T readById(int)
+~ void update(T)
+~ void delete(int)
+}
+
+class src.Clases.Valoracion {
+- int id
+- int nota
+- String comentario
+- int idVisitante
+- int idExposicion
++ <<Create>> Valoracion(int,int,String,int,int)
++ int getId()
++ void setId(int)
++ int getNota()
++ void setNota(int)
++ String getComentario()
++ void setComentario(String)
++ int getIdVisitante()
++ void setIdVisitante(int)
++ int getIdExposicion()
++ void setIdExposicion(int)
++ String toString()
+}
+
+
+class src.ClasesDAO.ValoracionDAO {
+- ConexionBBDD conexion
+- VisitanteDAO visitanteDAO
+- ExposicionDAO exposicionDAO
++ <<Create>> ValoracionDAO(ConexionBBDD)
++ void create(Valoracion)
++ List<Valoracion> readAll()
++ Valoracion readById(int)
++ void update(Valoracion)
++ void delete(int)
+}
+
+
+class src.Clases.Exposicion {
+- int id
+- String titulo
+- String tipo
+- String descripcion
+- LocalDate fechaCreacion
++ <<Create>> Exposicion(int,String,String,String,LocalDate)
++ int getId()
++ void setId(int)
++ String getTitulo()
++ void setTitulo(String)
++ String getTipo()
++ void setTipo(String)
++ String getDescripcion()
++ void setDescripcion(String)
++ LocalDate getFechaCreacion()
++ void setFechaCreacion(LocalDate)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class src.archivos.LogVisita {
+- {static} String LOG_PATH
++ {static} void registrarAcceso(Visitante,Exposicion)
++ {static} void mostrarLogs()
+}
+
+
+class src.ClasesDAO.VisitanteDAO {
+- ConexionBBDD conexion
++ <<Create>> VisitanteDAO(ConexionBBDD)
++ void create(Visitante)
++ List<Visitante> readAll()
++ Visitante readById(int)
++ void update(Visitante)
++ void delete(int)
+}
+
+
+class src.BBDD.ConexionBBDD {
+- Connection con
+- Statement sentencia
+- String sql
+- String url
+- String usuario
+- String password
++ void conectar()
++ Statement getSentencia()
++ void cerrarConexion()
+}
+
+
+class src.Clases.Visitante {
+- int id
+- String nombre
+- int edad
+- String email
++ <<Create>> Visitante(int,String,int,String)
++ int getId()
++ void setId(int)
++ String getNombre()
++ void setNombre(String)
++ int getEdad()
++ void setEdad(int)
++ String getEmail()
++ void setEmail(String)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class src.Main {
++ {static} void main(String[])
+- {static} void meterLogVisita(Scanner,VisitanteDAO,ExposicionDAO)
+- {static} void menuVisitantes(Scanner,VisitanteDAO)
+- {static} void menuExposiciones(Scanner,ExposicionDAO)
+- {static} void menuValoraciones(Scanner,ValoracionDAO,VisitanteDAO,ExposicionDAO)
+- {static} void anyadirVisitante(Scanner,VisitanteDAO)
+- {static} void verTodosVisitantes(VisitanteDAO)
+- {static} void buscarVisitantePorId(Scanner,VisitanteDAO)
+- {static} void actualizarVisitante(Scanner,VisitanteDAO)
+- {static} void eliminarVisitante(Scanner,VisitanteDAO)
+- {static} void anyadirExposicion(Scanner,ExposicionDAO)
+- {static} void verTodasExposiciones(ExposicionDAO)
+- {static} void buscarExposicionPorID(Scanner,ExposicionDAO)
+- {static} void actualizarExposicion(Scanner,ExposicionDAO)
+- {static} void eliminarExposicion(Scanner,ExposicionDAO)
+- {static} void anyadirValoracion(Scanner,ValoracionDAO,VisitanteDAO,ExposicionDAO)
+- {static} void verTodasLasValoraciones(ValoracionDAO)
+- {static} void buscarValoracionPorID(Scanner,ValoracionDAO)
+- {static} void actualizarValoracion(Scanner,ValoracionDAO)
+- {static} void eliminarValoracion(Scanner,ValoracionDAO)
+- {static} void menuFicherosExposiciones(Scanner,ExposicionDAO)
+- {static} void verificarExposicionesGuardadas()
+}
+
+class src.ClasesDAO.ExposicionDAO {
+- ConexionBBDD conexion
++ <<Create>> ExposicionDAO(ConexionBBDD)
++ void create(Exposicion)
++ List<Exposicion> readAll()
++ Exposicion readById(int)
++ void update(Exposicion)
++ void delete(int)
+}
+
+
+
+
+src.ClasesDAO.DAO <|.. src.ClasesDAO.ValoracionDAO
+java.io.Serializable <|.. src.Clases.Exposicion
+src.ClasesDAO.DAO <|.. src.ClasesDAO.VisitanteDAO
+src.ClasesDAO.DAO <|.. src.ClasesDAO.ExposicionDAO
+@enduml
