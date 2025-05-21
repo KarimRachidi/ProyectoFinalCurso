@@ -1,6 +1,6 @@
 package src.ClasesDAO;
 /*
-Creamos la clase ExposicionDAO donde se modifica la exposición
+Creamos la clase ExposicionDAO donde se le aplica CRUD la exposición
  */
 
 import src.BBDD.ConexionBBDD;

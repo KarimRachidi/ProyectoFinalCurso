@@ -8,6 +8,11 @@ import src.Clases.Visitante;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+/*
+Creamos la clase ExposicionDAO donde se le aplica CRUD a la valoración,
+es un poco más compleja porque necesitamos el ID del visitante
+y el ID de exposición para realizarlo.
+ */
 
 public class ValoracionDAO implements DAO<Valoracion> {
 

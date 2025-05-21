@@ -245,9 +245,11 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
 
     /*
     =============== MÉTODOS DE LOS VISITANTES ===============
-    Métodos que se utilizan para manejar los distintos visitantes
+    Métodos que se utilizan para manejar los distintos visitantes.
+    Donde básicamente aplico CRUD anteriormente realizado en la clase VisitanteDAO
      */
 
+    // CREATE
     private static void anyadirVisitante(Scanner sc, VisitanteDAO dao) {
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
@@ -262,6 +264,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         System.out.println("Visitante añadido.");
     }
 
+    // READ ALL
     private static void verTodosVisitantes(VisitanteDAO dao) {
         List<Visitante> lista = dao.readAll();
         System.out.println("\n--- LISTA DE VISITANTES ---");
@@ -272,6 +275,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    // READ BY ID
     private static void buscarVisitantePorId(Scanner sc, VisitanteDAO dao) {
         System.out.print("Introduce el ID del visitante: ");
         int id = sc.nextInt();
@@ -287,6 +291,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    // UPDATE
     private static void actualizarVisitante(Scanner sc, VisitanteDAO dao) {
         System.out.print("ID del visitante a actualizar: ");
         int id = sc.nextInt();
@@ -311,6 +316,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    // DELETE
     private static void eliminarVisitante(Scanner sc, VisitanteDAO dao) {
         System.out.print("ID del visitante a eliminar: ");
         int id = sc.nextInt();
@@ -323,6 +329,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
     Métodos que se utilizan para manejar las distintas exposiciones
      */
 
+    // CREATE
     private static void anyadirExposicion(Scanner sc, ExposicionDAO dao) {
         System.out.print("Título: ");
         String titulo = sc.nextLine();
@@ -336,6 +343,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         System.out.println("Exposición añadida.");
     }
 
+    // READ ALL
     private static void verTodasExposiciones(ExposicionDAO dao) {
         List<Exposicion> lista = dao.readAll();
         System.out.println("\n--- LISTA DE EXPOSICIONES ---");
@@ -346,6 +354,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    // READ BY ID
     private static void buscarExposicionPorID(Scanner sc, ExposicionDAO dao) {
         System.out.print("Introduce el ID de la exposición: ");
         int id = sc.nextInt();
@@ -360,6 +369,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    // UPDATE
     private static void actualizarExposicion(Scanner sc, ExposicionDAO dao) {
         System.out.print("ID de la exposición a actualizar: ");
         int id = sc.nextInt();
@@ -385,6 +395,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    // DELETE
     private static void eliminarExposicion(Scanner sc, ExposicionDAO dao) {
         System.out.print("ID de la exposición a eliminar: ");
         int id = sc.nextInt();
@@ -398,6 +409,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
     Métodos que se utilizan para manejar las distintas valoraciones
      */
 
+    // CREATE
     private static void anyadirValoracion(Scanner sc, ValoracionDAO valoracionDAO, VisitanteDAO visitanteDAO, ExposicionDAO exposicionDAO) {
         // Mostrar listado de visitantes
         System.out.println("Lista de visitantes:");
@@ -407,7 +419,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
             System.out.println("ID: " + v.getId() + " - Nombre: " + v.getNombre());
         }
 
-        // Mostrar listado de exposiciones
+        // READ ALL
         System.out.println("Lista de exposiciones:");
         List<Exposicion> listaExposiciones = exposicionDAO.readAll();
         for (int i = 0; i < listaExposiciones.size(); i++) {
@@ -451,7 +463,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
                     ", Comentario: " + v.getComentario());
         }
     }
-
+    // READ BY ID
     private static void buscarValoracionPorID(Scanner sc, ValoracionDAO valoracionDAO) {
         System.out.print("Introduce el ID de la valoración: ");
         int id = sc.nextInt();
@@ -465,6 +477,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
         }
     }
 
+    //UPDATE
     private static void actualizarValoracion(Scanner sc, ValoracionDAO valoracionDAO) {
         System.out.print("ID de la valoración a actualizar: ");
         int id = sc.nextInt();
@@ -486,7 +499,7 @@ Aquí creamos el primer menú donde decidiremos a qué submenú iremos
             System.out.println("Valoración no encontrada.");
         }
     }
-
+    // DELETE
     private static void eliminarValoracion(Scanner sc, ValoracionDAO valoracionDAO) {
         System.out.print("ID de la valoración a eliminar: ");
         int id = sc.nextInt();

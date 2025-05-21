@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-Creamos la clase VisitanteDAO donde se modifica al visitante
+Creamos la clase VisitanteDAO donde se le aplica CRUD al Visitante
  */
 public class VisitanteDAO implements DAO<Visitante> {
     private final ConexionBBDD conexion;
