@@ -21,7 +21,7 @@ public class VisitanteDAO implements DAO<Visitante> {
 
     @Override
     public void create(Visitante visitante) {
-        String sql = "INSERT INTO VISITANTE(nombre, edad, email) VALUES (?,?,?)";
+        String sql = "INSERT INTO visitante(nombre, edad, email) VALUES (?,?,?)";
         try (PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)) {
             stmt.setString(1, visitante.getNombre());
             stmt.setInt(2, visitante.getEdad());
@@ -35,7 +35,7 @@ public class VisitanteDAO implements DAO<Visitante> {
     @Override
     public List<Visitante> readAll() {
         List<Visitante> lista = new ArrayList<>();
-        String sql = "SELECT * FROM VISITANTE";
+        String sql = "SELECT * FROM visitante";
         try (ResultSet rs = conexion.getSentencia().executeQuery(sql)) {
             while (rs.next()) {
                 lista.add(new Visitante(
@@ -54,7 +54,7 @@ public class VisitanteDAO implements DAO<Visitante> {
 
     @Override
     public Visitante readById(int id) {
-        String sql = "SELECT * FROM VISITANTE WHERE id=?";
+        String sql = "SELECT * FROM visitante WHERE id=?";
         try (PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)) {
             stmt.setInt(1, id); // Reemplaza el primer '?' con el valor de id
             ResultSet rs = stmt.executeQuery();
@@ -75,7 +75,7 @@ public class VisitanteDAO implements DAO<Visitante> {
 
     @Override
     public void update(Visitante visitante){
-        String sql = "UPDATE VISITANTE SET nombre=?, edad=?, email=? WHERE id=?";
+        String sql = "UPDATE visitante SET nombre=?, edad=?, email=? WHERE id=?";
         try(PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)){
             stmt.setString(1, visitante.getNombre());
             stmt.setInt(2, visitante.getEdad());
@@ -89,7 +89,7 @@ public class VisitanteDAO implements DAO<Visitante> {
 
     @Override
     public void delete(int id){
-        String sql = "DELETE FROM VISITANTE WHERE id=?";
+        String sql = "DELETE FROM visitante WHERE id=?";
         try(PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)){
             stmt.setInt(1, id);
             stmt.executeUpdate();

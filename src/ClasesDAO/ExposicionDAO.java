@@ -23,7 +23,7 @@ public class ExposicionDAO implements DAO<Exposicion> {
     }
     @Override
     public void create(Exposicion exposicion) {
-        String sql = "INSERT INTO EXPOSICION(titulo, tipo, descripcion, fecha_creacion) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO exposicion(titulo, tipo, descripcion, fecha_creacion) VALUES (?,?,?,?)";
         try (PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)) {
             stmt.setString(1, exposicion.getTitulo());
             stmt.setString(2, exposicion.getTipo());
@@ -37,7 +37,7 @@ public class ExposicionDAO implements DAO<Exposicion> {
     @Override
     public List<Exposicion> readAll() {
         List<Exposicion> lista = new ArrayList<>();
-        String sql = "SELECT * FROM EXPOSICION";
+        String sql = "SELECT * FROM exposicion";
         try (ResultSet rs = conexion.getSentencia().executeQuery(sql)) {
             while (rs.next()) {
                 lista.add(new Exposicion(
@@ -58,7 +58,7 @@ public class ExposicionDAO implements DAO<Exposicion> {
 
     @Override
     public Exposicion readById(int id) {
-        String sql = "SELECT * FROM EXPOSICION WHERE id=?";
+        String sql = "SELECT * FROM exposicion WHERE id=?";
         try (PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)) {
             stmt.setInt(1, id); // Reemplaza el primer '?' con el valor de id
             ResultSet rs = stmt.executeQuery();
@@ -80,7 +80,7 @@ public class ExposicionDAO implements DAO<Exposicion> {
 
     @Override
     public void update(Exposicion exposicion){
-        String sql = "UPDATE EXPOSICION SET titulo=?, tipo=?, descripcion=?, fecha_creacion=? WHERE id=?";
+        String sql = "UPDATE exposicion SET titulo=?, tipo=?, descripcion=?, fecha_creacion=? WHERE id=?";
         try(PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)){
             stmt.setString(1, exposicion.getTitulo());
             stmt.setString(2, exposicion.getTipo());
@@ -95,7 +95,7 @@ public class ExposicionDAO implements DAO<Exposicion> {
 
     @Override
     public void delete(int id){
-        String sql = "DELETE FROM EXPOSICION WHERE id=?";
+        String sql = "DELETE FROM exposicion WHERE id=?";
         try(PreparedStatement stmt = conexion.getSentencia().getConnection().prepareStatement(sql)){
             stmt.setInt(1, id);
             stmt.executeUpdate();

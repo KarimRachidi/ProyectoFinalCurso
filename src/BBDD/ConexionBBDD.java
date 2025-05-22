@@ -12,7 +12,7 @@ public class ConexionBBDD {
     private Connection con;
     private Statement sentencia;
     private String sql;
-    private String url = "jdbc:mysql://localhost/MUSEO?serverTimeZone=UTC";
+    private String url = "jdbc:mysql://localhost/museo?serverTimeZone=UTC";
     private String usuario = "root";
     private String password = "root_123";
 
